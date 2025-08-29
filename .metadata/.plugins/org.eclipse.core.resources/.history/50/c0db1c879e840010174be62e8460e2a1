@@ -1,0 +1,76 @@
+package com.aclass.test.run;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class SelectRun {
+
+	public static void main(String[] args) {
+		// 현재 작업중인 DB서버에서 각자 자신이 가지고있는 TB_STUDENT테이블의 모든 행 조회 Console에 출력
+		// SELECT문
+		// ResultSet(조회된 행들의 집합)
+		// => ResultSet타입의 데이터를 받아서 뽑기
+		
+		// 0) 필요한 변수들 먼저 세팅
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rset = null;
+		// 0단계 끗
+		
+		// 요청할 SQL문도 미리 완성형태로 준비해두기
+		String sql = """
+						SELECT 
+							   STUDENT_ID
+							 , STUDENT_NAME
+							 , ENROLL_DATE
+						  FROM 
+							   TB_STUDENT
+						 ORDER
+							BY
+				 			   ENROLL_DATE DESC;
+					 """;
+		
+		try {
+			
+		// 1. JDBC Driver 등록
+		// 리플렉션을 이용한 드라이버 클래스 로딩
+		// 실행시점에 필요한 데이터베이스 드라이버를 동적으로 로드
+		// 코드의 변경 없이 데이터베이스를 연결할 구 있도록
+		Class.forName("oracle.jdbc.driver.OracleDriver");	
+		// 2. Connection 객체 생서
+		conn = DriverManager.getConnection("jdbc:oracle:thin:@115.90.212.20:10000:XE", "CJY19", "CJY191234");
+		
+		System.out.println("DB서버 접속 성공!");
+		
+		// 3. Statement 객체 생성
+		stmt = conn.createStatement();
+		
+		// 4. SQL문을 실행
+		// 실행할 SQL문이 SELECT문인 경우
+		// stmt.executeQuery(sql) : ResultSet
+		stmt.executeQuery(sql);
+		
+		
+		
+		} catch(ClassNotFoundException e) {
+			
+			System.out.println("ojdbc추가했나요");
+		    System.out.println("oracle.jdbc.driver.oracleDriver 오타가 없나요");
+		 		
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("URL을 잘 입력했나요?");
+			System.out.println("사용자계역명, 비번이 올바른가요?");
+			System.out.println("SQL문 잘썼나요?");
+		}
+		
+				
+				
+				
+				
+	}
+
+}

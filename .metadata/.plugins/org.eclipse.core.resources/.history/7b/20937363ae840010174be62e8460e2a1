@@ -1,0 +1,68 @@
+package com.kh.run;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class SelectRun {
+
+	public static void main(String[] args) {
+
+		// 0.
+		Connection conn = null;
+		Statement stat = null;
+		ResultSet rset = null;
+		
+		// SQL Write
+		String sql = null;
+		sql = "SELECT * FROM EMPLOYEE"
+				+ " ORDER BY HIRE_DATE";
+		
+		try {
+			// Driver
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			System.out.println("Driver OK");
+			
+			// Connection
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@115.90.212.20:10000:XE",
+											   "CJY19", "CJY191234");
+			System.out.println("Connect OK");
+			
+			// Statement
+			stat = conn.createStatement();
+			System.out.println("Statement Obj OK");
+			
+			// SQL Active
+			rset = stat.executeQuery(sql);
+			System.out.println("ResultSet Return OK");
+			
+			// Print
+			// EMP_ID, EMP_NAME, EMP_NO, EMAIL, PHONE, DEPT_CODE,
+			// JOB_CODE, SAL_LEVEL, SALARY, BONUS, MANAGER_ID, HIRE_DATE
+			while(rset.next()) {
+				String empId = rset.getString("EMP_ID");
+				String empName = rset.getString("EMP_ID");
+				String empNo = rset.getString("EMP_ID");
+				String email = rset.getString("EMP_ID");
+				String phone = rset.getString("EMP_ID");
+				String deptCode = rset.getString("EMP_ID");
+				String jobCode = rset.getString("EMP_ID");
+				String salLevel = rset.getString("EMP_ID");
+				int Salary = rset.getInt("EMP_ID");
+				double bonus = rset.getDouble("EMP_ID");
+				String managerId = rset.getString("EMP_ID");
+				Date hireDate = rset.getDate("EMP_ID");
+			}
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+}

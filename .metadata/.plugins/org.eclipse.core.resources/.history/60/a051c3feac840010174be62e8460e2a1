@@ -1,0 +1,22 @@
+package com.kh.run;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+public class SelectRun {
+
+	public static void main(String[] args) {
+
+		// 0.
+		Connection conn = null;
+		Statement stat = null;
+		ResultSet rset = null;
+		
+		// SQL
+		String sql = null;
+		sql = "SELECT * FROM EMPLOYEE";
+		
+	}
+
+}
