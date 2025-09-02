@@ -28,7 +28,7 @@ public class Player {
 	}
 
 	public Player(int playerNo, String playerName, String teamCode, int gamesPlayed, double average, Date debutDate,
-			Date retireDate, char retireYN) {
+			Date retireDate) {
 		super();
 		this.playerNo = playerNo;
 		this.playerName = playerName;
@@ -37,7 +37,6 @@ public class Player {
 		this.average = average;
 		this.debutDate = debutDate;
 		this.retireDate = retireDate;
-		this.retireYN = retireYN;
 	}
 	public int getPlayerNo() {
 		return playerNo;

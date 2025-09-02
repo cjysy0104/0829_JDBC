@@ -1,9 +1,10 @@
 package com.kh.hw2.view;
 
-import java.sql.Date;
+import java.util.List;
 import java.util.Scanner;
 
 import com.kh.hw2.statement.controller.PlayerController;
+import com.kh.hw2.statement.model.vo.Player;
 
 public class PlayerView {
 
@@ -26,10 +27,13 @@ public class PlayerView {
 			case 1: insertPlayer();
 				break;
 			case 2:
+				findAll();
 				break;
 			case 3:
+				findByNo();
 				break;
 			case 4:
+				findByKeyword();
 				break;
 			default:
 				System.out.println("잘못입력함");
@@ -38,6 +42,44 @@ public class PlayerView {
 
 		}
 
+	}
+
+	private void findByKeyword() {
+		System.out.println("키워드 검색");
+		System.out.println("================================");
+		String keyword = sc.nextLine();
+		List<Player> players = pc.findByKeyword(keyword);
+		if(players.isEmpty()) {
+			System.out.println("없어");
+		} else {
+			for (Player player : players) {
+				System.out.println(player.toString());
+			}
+		}
+	}
+
+	private void findByNo() {
+		System.out.println("번호 검색");
+		System.out.println("================================");
+		int no = sc.nextInt();
+		sc.nextLine();
+		Player player = pc.findByNo(no);
+		System.out.println(player.toString());
+	}
+
+	private void findAll() {
+		System.out.println("전체 선수 조회");
+		System.out.println("================================");
+		List<Player> players = pc.findAll();
+		
+		if(players.isEmpty()) {
+			System.out.println("없어");
+		} else {
+			for (Player player : players) {
+				System.out.println(player.toString());
+			}
+		}
+		
 	}
 
 	private void insertPlayer() {
@@ -56,10 +98,9 @@ public class PlayerView {
 		System.out.println("타율?");
 		double average = sc.nextDouble();
 		sc.nextLine();
-		System.out.println("데뷔일?");
-		String debutDate = sc.nextLine();
 		
-		int result = pc.insertPlayer(playerNo, playerName, teamCode, gamesPlayed, average, debutDate);
+		
+		int result = pc.insertPlayer(playerNo, playerName, teamCode, gamesPlayed, average);
 		if(result > 0) {
 			System.out.println("기입 완료");
 		} else {
