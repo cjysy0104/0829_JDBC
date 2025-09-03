@@ -1,9 +1,11 @@
 package com.kh.board.view;
 
+import java.util.List;
 import java.util.Scanner;
 
 import com.kh.board.controller.BoardController;
 import com.kh.board.model.dto.BoardDTO;
+import com.kh.board.model.vo.Board;
 
 public class BoardView {
 	/*
@@ -51,7 +53,9 @@ public class BoardView {
 		while (true) {
 			System.out.println("게시판 서비스입니다!");
 			// 전체 게시글 목록 조회
-
+			selectBoardList();
+			System.out.println();
+			
 			System.out.println("================================");
 			System.out.println("1. 게시글 상세조회");
 			System.out.println("2. 게시글 작성하기");
@@ -64,7 +68,7 @@ public class BoardView {
 			switch(menuNo) {
 			case 1 : selectBoard(); break;
 			case 2 : insertBoard(); break;
-			case 3 : break;
+			case 3 : deleteBoard(); break;
 			case 9 : System.out.println("안녕히 가세요"); return;
 			default : System.out.println("잘못된 번호입력");
 			}
@@ -72,9 +76,62 @@ public class BoardView {
 		}
 	}
 
-	private void selectBoard() {
-		System.out.println("게시글 상세 조회");
+	private void deleteBoard() {
+		System.out.println("게시글 삭제 서비스입니다.");
+		System.out.println("삭제할 게시글 번호 입력 > ");
+		int boardNo = sc.nextInt();
+		sc.nextLine();
 		
+		int result = bc.deleteBoard(boardNo);
+		if(result > 0) {
+			System.out.println("삭제 완료");
+		} else {
+			System.out.println("삭제 실패");
+		}
+	}
+
+	private void selectBoard() {
+
+		System.out.println("게시글 상세조회 서비스입니다.");
+		System.out.println("조회할 게시글 번호 입력 > ");
+		int boardNo = sc.nextInt();
+		sc.nextLine();
+		
+		Board board = bc.selectBoard(boardNo);
+		
+		if(board != null) {
+			System.out.print("NO: " + board.getBoardNo());
+			System.out.print(" | TITLE: " + board.getBoardTitle());
+			System.out.print(" | USER: " + board.getBoardWriter());
+			System.out.println("| CREATE_DATE: " + board.getCreateDate());
+			System.out.println("================================================================");
+			System.out.println(board.getBoardContent());
+		} else {
+			System.out.println("존재하지 않는 게시글 번호입니다.");
+		}
+		
+		while(true) {
+			System.out.println("목록으로 돌아가시려면 exit을 입력해주세요.");
+			String exit = sc.nextLine();
+			if("exit".equals(exit)) {
+				return;
+			}
+		}
+	}
+
+	private void selectBoardList() {
+
+		System.out.println("전체 글 보기");
+		System.out.println("================================");
+		List<Board> boards =  bc.selectBoardList();
+		
+		if(!boards.isEmpty()) {
+			boards.stream().map(b -> "\n게시글 번호: " + b.getBoardNo()
+									+"\t게시글 제목: " + b.getBoardTitle()
+									+"\t게시글 작성자: "+ b.getBoardWriter()).forEach(System.out::print);
+		} else {
+			System.out.println("게시글이 존재하지 않습니다.");
+		}
 		
 	}
 

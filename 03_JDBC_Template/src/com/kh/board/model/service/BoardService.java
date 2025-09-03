@@ -1,6 +1,7 @@
 package com.kh.board.model.service;
 
 import java.sql.Connection;
+import java.util.List;
 
 import com.kh.board.model.dao.BoardDAO;
 import com.kh.board.model.dto.BoardDTO;
@@ -50,8 +51,51 @@ public class BoardService {
 		
 		// 4. 자원반납
 		JDBCTemplate.close(conn);
-		
+
 		// 5. 값 반환
+		return result;
+	}
+
+	public List<Board> selectBoardList() {
+		
+		List<Board> boards = new BoardDAO().selectBoardList(conn);
+		
+		new BoardDAO().outputHTML(conn);
+		
+		JDBCTemplate.close(conn);
+
+		return boards;
+	}
+
+	public Board selectBoard(int boardNo) {
+
+		Board board = null;
+		
+		// BOARDNO == 넘버시퀀스로 만듬
+		// 0 이하 숫자(==유효하지않은값) 들어오면 DB접근할 필요 X
+		if(boardNo > 0) {
+			board =	new BoardDAO().selectBoard(conn, boardNo);
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return board;
+	}
+
+	public int deleteBoard(int boardNo) {
+
+		int result = 0;
+		
+		if(boardNo > 0) {
+			result = new BoardDAO().deleteBoard(conn, boardNo);
+		}
+		
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		
 		return result;
 	}
 
