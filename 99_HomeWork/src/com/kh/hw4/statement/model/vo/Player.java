@@ -31,6 +31,38 @@ public class Player {
 		this.enrollDate = enrollDate;
 	}
 
+	public void setPlayerId(int playerId) {
+		this.playerId = playerId;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
+	public void setNation(String nation) {
+		this.nation = nation;
+	}
+
+	public void setHeight(double height) {
+		this.height = height;
+	}
+
+	public void setWeight(double weight) {
+		this.weight = weight;
+	}
+
+	public void setCurTeam(String curTeam) {
+		this.curTeam = curTeam;
+	}
+
+	public void setEnrollDate(Date enrollDate) {
+		this.enrollDate = enrollDate;
+	}
+
 	public int getPlayerId() {
 		return playerId;
 	}

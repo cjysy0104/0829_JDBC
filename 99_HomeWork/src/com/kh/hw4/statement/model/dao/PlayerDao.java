@@ -26,18 +26,19 @@ public class PlayerDao {
 		List<Player> players = new ArrayList<Player>();
 		String sql = """
 				SELECT
-				 	   PLAYER_NO
-				 	 , PLAYER_NAME
-				 	 , TEAM_CODE
-				 	 , GAMES_PLAYED
-				 	 , AVERAGE
-				 	 , DEBUT_DATE
-				 	 , RETIRE_DATE
+				 	   PLAYER_ID
+				 	 , FULL_NAME
+				 	 , POSITION
+				 	 , NATION
+				 	 , HEIGHT
+				 	 , WEIGHT
+				 	 , CUR_TEAM
+				 	 , ENROLLDATE
 				  FROM
-				  	   TB_PLAYER_BATTER
+				  	   FOOTBALL_PLAYER
 				 ORDER
 				 	BY
-				 	   DEBUT_DATE DESC
+				 	   ENROLLDATE DESC
 				 """;
 
 		try {
@@ -47,13 +48,14 @@ public class PlayerDao {
 			rset = pstat.executeQuery();
 			while (rset.next()) {
 				Player player = new Player();
-				player.setPlayerNo(rset.getInt("PLAYER_NO"));
-				player.setPlayerName(rset.getString("PLAYER_NAME"));
-				player.setTeamCode(rset.getString("TEAM_CODE"));
-				player.setGamesPlayed(rset.getInt("GAMES_PLAYED"));
-				player.setAverage(rset.getDouble("AVERAGE"));
-				player.setDebutDate(rset.getDate("DEBUT_DATE"));
-				player.setRetireDate(rset.getDate("RETIRE_DATE"));
+				player.setPlayerId(rset.getInt("PLAYER_ID"));
+				player.setFullName(rset.getString("FULL_NAME"));
+				player.setPosition(rset.getString("POSITION"));
+				player.setNation(rset.getString("NATION"));
+				player.setHeight(rset.getDouble("HEIGHT"));
+				player.setWeight(rset.getDouble("WEIGHT"));
+				player.setCurTeam(rset.getString("CUR_TEAM"));
+				player.setEnrollDate(rset.getDate("ENROLLDATE"));
 
 				players.add(player);
 			}
@@ -69,20 +71,25 @@ public class PlayerDao {
 		Connection conn = null;
 		PreparedStatement pstat = null;
 		ResultSet rset = null;
-		Player player = null;
+		Player player = new Player();
 		String sql = """
 				SELECT
-				 	   PLAYER_NO
-				 	 , PLAYER_NAME
-				 	 , TEAM_CODE
-				 	 , GAMES_PLAYED
-				 	 , AVERAGE
-				 	 , DEBUT_DATE
-				 	 , RETIRE_DATE
+				 	   PLAYER_ID
+				 	 , FULL_NAME
+				 	 , POSITION
+				 	 , NATION
+				 	 , HEIGHT
+				 	 , WEIGHT
+				 	 , CUR_TEAM
+				 	 , ENROLLDATE
 				  FROM
-				  	   TB_PLAYER_BATTER
-				 WHERE
-				  	   PLAYER_NO = ?""";
+				  	   FOOTBALL_PLAYER
+				 WHERE 
+				 	   PLAYER_ID = ?
+				 ORDER
+				 	BY
+				 	   ENROLLDATE DESC
+				 """;
 
 		try {
 			Class.forName(DRIVER);
@@ -92,10 +99,15 @@ public class PlayerDao {
 			rset = pstat.executeQuery();
 
 			if (rset.next()) {
-				player = new Player(rset.getInt("PLAYER_NO"), rset.getString("PLAYER_NAME"),
-						rset.getString("TEAM_CODE"), rset.getInt("GAMES_PLAYED"), rset.getDouble("AVERAGE"),
-						rset.getDate("DEBUT_DATE"), rset.getDate("RETIRE_DATE"));
-			}
+				player.setPlayerId(rset.getInt("PLAYER_ID"));
+				player.setFullName(rset.getString("FULL_NAME"));
+				player.setPosition(rset.getString("POSITION"));
+				player.setNation(rset.getString("NATION"));
+				player.setHeight(rset.getDouble("HEIGHT"));
+				player.setWeight(rset.getDouble("WEIGHT"));
+				player.setCurTeam(rset.getString("CUR_TEAM"));
+				player.setEnrollDate(rset.getDate("ENROLLDATE"));
+				}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -112,32 +124,34 @@ public class PlayerDao {
 		List<Player> players = new ArrayList<Player>();
 		String sql = """
 				SELECT
-					   PLAYER_NO
-					 	 , PLAYER_NAME
-					 	 , TEAM_CODE
-					 	 , GAMES_PLAYED
-					 	 , AVERAGE
-					 	 , DEBUT_DATE
-					 	 , RETIRE_DATE
-					  FROM
-					  	   TB_PLAYER_BATTER
+				 	   PLAYER_ID
+				 	 , FULL_NAME
+				 	 , POSITION
+				 	 , NATION
+				 	 , HEIGHT
+				 	 , WEIGHT
+				 	 , CUR_TEAM
+				 	 , ENROLLDATE
+				  FROM
+				  	   FOOTBALL_PLAYER
 					 WHERE
-					 	   PLAYER_NAME LIKE ?""";
+					 	   FULL_NAME LIKE ?""";
 		try {
 			Class.forName(DRIVER);
 			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, "%" + keyword + "%");
 			rset = pstat.executeQuery();
 			while (rset.next()) {
 				Player player = new Player();
-				player.setPlayerNo(rset.getInt("PLAYER_NO"));
-				player.setPlayerName(rset.getString("PLAYER_NAME"));
-				player.setTeamCode(rset.getString("TEAM_CODE"));
-				player.setGamesPlayed(rset.getInt("GAMES_PLAYED"));
-				player.setAverage(rset.getDouble("AVERAGE"));
-				player.setDebutDate(rset.getDate("DEBUT_DATE"));
-				player.setRetireDate(rset.getDate("RETIRE_DATE"));
-
+				player.setPlayerId(rset.getInt("PLAYER_ID"));
+				player.setFullName(rset.getString("FULL_NAME"));
+				player.setPosition(rset.getString("POSITION"));
+				player.setNation(rset.getString("NATION"));
+				player.setHeight(rset.getDouble("HEIGHT"));
+				player.setWeight(rset.getDouble("WEIGHT"));
+				player.setCurTeam(rset.getString("CUR_TEAM"));
+				player.setEnrollDate(rset.getDate("ENROLLDATE"));
 				players.add(player);
 			}
 		} catch (ClassNotFoundException e) {
