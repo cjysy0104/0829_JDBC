@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<comment>TB_EMP SQL</comment>
+	
+	<entry key="findAll">
+	SELECT 
+		   EMP_ID
+		 , EMP_NAME
+		 , SALARY
+		 , DEPT_TITLE
+		 , JOB_NAME
+	  FROM  
+	 	   EMPLOYEE 
+	  JOIN 
+ 	 	   DEPARTMENT ON (EMPLOYEE.DEPT_CODE = DEPARTMENT.DEPT_ID)
+	  JOIN
+	  	   JOB ON (EMPLOYEE.JOB_CODE = JOB.JOB_CODE)
+	 ORDER 
+	 	BY 
+	 	   EMP_ID ASC
+	</entry>
+	
+	
+	<entry key="findByDept">
+	SELECT 
+		   EMP_ID
+		 , EMP_NAME
+		 , SALARY
+		 , DEPT_TITLE
+		 , JOB_NAME
+	  FROM  
+	 	   EMPLOYEE 
+	  JOIN 
+ 	 	   DEPARTMENT ON (EMPLOYEE.DEPT_CODE = DEPARTMENT.DEPT_ID)
+	  JOIN
+	  	   JOB ON (EMPLOYEE.JOB_CODE = JOB.JOB_CODE)
+	 WHERE 
+	 	   DEPT_TITLE = ?
+	 ORDER 
+	 	BY 
+	 	   EMP_ID ASC
+	</entry>
+	
+	
+	<entry key="findByJob">
+	SELECT 
+		   EMP_ID
+		 , EMP_NAME
+		 , SALARY
+		 , DEPT_TITLE
+		 , JOB_NAME
+	  FROM  
+	 	   EMPLOYEE 
+	  JOIN 
+ 	 	   DEPARTMENT ON (EMPLOYEE.DEPT_CODE = DEPARTMENT.DEPT_ID)
+	  JOIN
+	  	   JOB ON (EMPLOYEE.JOB_CODE = JOB.JOB_CODE)
+	 WHERE 
+	 	   JOB_NAME = ?
+	 ORDER 
+	 	BY 
+	 	   EMP_ID ASC
+	</entry>
+	
+	
+	<entry key="findById">
+	SELECT 
+		   *
+	  FROM 
+	  	   EMPLOYEE
+	</entry>
+	
+	
+	<entry key="findHighSalary">
+	SELECT 
+		   EMP_ID
+		 , EMP_NAME
+		 , SALARY
+		 , DEPT_TITLE
+		 , JOB_NAME
+	  FROM  
+	 	   EMPLOYEE 
+	  JOIN 
+ 	 	   DEPARTMENT ON (EMPLOYEE.DEPT_CODE = DEPARTMENT.DEPT_ID)
+	  JOIN
+	  	   JOB ON (EMPLOYEE.JOB_CODE = JOB.JOB_CODE)
+	 ORDER 
+	 	BY 
+	 	   SALARY DESC
+	OFFSET 0 ROWS FETCH NEXT 5 ROWS ONLY
+	</entry>
+	
+	<entry key="findLowSalary">
+	SELECT 
+		   EMP_ID
+		 , EMP_NAME
+		 , SALARY
+		 , DEPT_TITLE
+		 , JOB_NAME
+	  FROM  
+	 	   EMPLOYEE 
+	  JOIN 
+ 	 	   DEPARTMENT ON (EMPLOYEE.DEPT_CODE = DEPARTMENT.DEPT_ID)
+	  JOIN
+	  	   JOB ON (EMPLOYEE.JOB_CODE = JOB.JOB_CODE)
+	 WHERE 
+	 	   SALARY IS NOT NULL 
+	 ORDER 
+	 	BY 
+	 	   SALARY ASC
+	OFFSET 0 ROWS FETCH NEXT 5 ROWS ONLY
+	</entry>
+	
+	<entry key="save">
+	INSERT 
+	  INTO 
+	  	   EMPLOYEE
+	VALUES (
+		   ?
+		 , ?
+		 , ?
+		 , ?
+		 , ?
+		 , ?
+		 , ?
+		 , ?
+		 , ?
+		 , ?
+		 , ?
+		 , NULL
+		 , NULL
+		 , 'N'
+		   )
+	</entry>
+	
+	<entry key="updateInfo">
+	UPDATE 
+		   EMPLOYEE
+	   SET 
+	   	   SALARY = ?
+	   	 , DEPT_CODE = ?
+	   	 , JOB_CODE = ?
+	 WHERE 
+	 	   EMP_ID = ?
+	
+	</entry>
+	
+	<entry key="deleteByNo">
+	
+	</entry>
+
+</properties>

@@ -1,4 +1,4 @@
-package com.kh.run;
+package com.kh.run.test;
 
 import java.sql.Connection;
 import java.sql.Date;

@@ -7,6 +7,7 @@ import static com.kh.common.JDBCTemplate.getConnection;
 
 import com.kh.common.JDBCTemplate;
 import com.kh.statement.model.dao.PlayerDAO;
+import com.kh.statement.model.dto.PlayerDTO;
 import com.kh.statement.model.vo.Player;
 
 /*
@@ -25,6 +26,27 @@ public class PlayerService {
 		List<Player> players = new PlayerDAO().findByKeyword(conn, keyword);
 		JDBCTemplate.close(conn);
 		return players;
+	}
+
+
+	public Player findByNo(int no) {
+		Player player = new PlayerDAO().findByNo(conn, no);
+		JDBCTemplate.close(conn);
+		return player;
+	}
+
+
+	public List<Player> findAll() {
+		List<Player> players = new PlayerDAO().findAll(conn);
+		JDBCTemplate.close(conn);
+		return players;
+	}
+
+
+	public int insertPlayer(PlayerDTO player) {
+		int result = new PlayerDAO().insertPlayer(conn, player);
+		JDBCTemplate.close(conn);
+		return result;
 	}
 
 }

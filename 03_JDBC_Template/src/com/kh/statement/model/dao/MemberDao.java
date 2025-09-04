@@ -76,7 +76,7 @@ public class MemberDao {
 					   		   MEMBER
 					 ORDER
 						BY
-				   		   ENROLLDATE DESC
+				   		   ENROLLDATE ASC
 				""";
 
 		try {
