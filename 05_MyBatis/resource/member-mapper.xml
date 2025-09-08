@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberMapper">
+	<!-- namesapce : 각 mapper의 고유한 별칭 다른 메퍼파일과 중복되면 안됨 -->
+	<!-- * DML일 경우 <insert id="각 SQL문의 식별자"> 쿼리문 </insert> <update></update> 
+		<delete></delete> * SELECT일 경우 <select id="각 SQL문의 식별자 parameterType="SQL문을 
+		실행할 때 필요한 자바타입" resultType="조회결과를 반환하는 자바타입" 또는 resultMap="조회결과를 반환할 resultMap의 
+		id속성값"> 쿼리문 </select> => parameterType은 전달받을 값이 없다면 생략이 가능함 ==> count(*) 
+		=> 정수 / 중복체크 => 문자열 => SELECT문의 경우 반드시 어떤 형태로 반환할지를 속성으로 명시해야함 ==> 그동안 pstat 
+		객체를 이용해서 ?를 썼지만, 앞으로 위치홀더 대신 해당 SQL문에 전ㅌ달된 객체로부터 값을 꺼내서 사용 => 내부적으로는 getter호출 
+		getter호출방법 == #{필드명 또는 변수명 또는 map의 키값} -->
+	<insert id="save"
+		parameterType="com.kh.statement.model.vo.Member">
+		INSERT 
+		  INTO 
+			   MEMBER
+			   VALUES
+			   (
+			   SEQ_USERNO.NEXTVAL
+			 , #{userId}
+			 , #{userPwd}
+			 , #{userName}
+			 , #{email}
+			 , SYSDATE
+			   )
+	</insert>
+
+
+	<!-- *resultMap : 마이바티스에서 가장 중요하고 강력한 요소 ResultSet으로부터 조회한 컬럼의 값을 하나씩 뽑아서 
+		우리가 만든 VO객체에 각 필드에 담는 JDBC코드를 줄여주는 역할 수행 while(rset.next()){ member member 
+		= new Member(); member.setUserNo(rset.getInt("USERNO")); member.setUserId(rset.getInt("USERID")); 
+		members.add(member) } ==> 를 줄여줌 <resultMap id="식별자" type="매핑하고자하는 자바객체의 타입(풀클래스명)"> 
+		<result column="조회된 결과를 뽑고자 하는 컬럼명" property="해당 결과를 매핑할 필드명/> 예시) <result 
+		column="USERNO" property="userNo"/> </resultMap> -->
+
+	<resultMap id="memberResultSet"
+		type="com.kh.statement.model.vo.Member">
+		<result column="USERNO" property="userNo" />
+		<result column="USERID" property="userId" />
+		<result column="USERPWD" property="userPwd" />
+		<result column="USERNAME" property="userName" />
+		<result column="EMAIL" property="email" />
+		<result column="ENROLLDATE" property="enrollDate" />
+	</resultMap>
+
+	<!-- resultMap="memberResultSet"> -->
+	<select id="findAll"
+		resultType="com.kh.statement.model.vo.Member">
+		SELECT
+		USERNO
+		, USERID
+		, USERPWD
+		, USERNAME
+		, EMAIL
+		, ENROLLDATE
+		FROM
+		MEMBER
+		ORDER
+		BY
+		ENROLLDATE DESC
+	</select>
+
+	<select id="findById" parameterType="string"
+		resultType="com.kh.statement.model.vo.Member">
+		SELECT
+		USERNO,
+		USERID,
+		USERPWD,
+		USERNAME,
+		EMAIL
+		FROM
+		MEMBER
+		WHERE
+		USERID = #{userId}
+	</select>
+	
+	<select id="findByKeyword" parameterType="string"
+			resultType="member">
+
+		SELECT
+		USERNO,
+		USERID,
+		USERPWD,
+		USERNAME,
+		EMAIL
+		FROM
+		MEMBER
+		WHERE
+		USERID LIKE '%' || #{keyword} || '%'		
+	</select>
+
+	<update id="update" parameterType="PwdDto">
+		UPDATE 
+		MEMBER
+		SET
+		USERPWD = #{newPwd}
+		WHERE USERID = #{userId}
+		AND USERPWD = #{userPwd}
+	</update>
+
+	<delete id="delete" parameterType="member">
+		DELETE FROM MEMBER
+		WHERE USERID = #{userId}
+		AND USERPWD = #{userPwd}
+	</delete>
+</mapper>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

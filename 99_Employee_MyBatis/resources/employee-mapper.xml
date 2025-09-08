@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="employeeMapper">
+	
+	<select id="findAll"
+			resultType="employee">
+		SELECT 
+			   EMP_ID
+			 , EMP_NAME
+			 , SALARY
+			 , DEPT_TITLE
+			 , JOB_NAME
+		  FROM 
+		  	   EMPLOYEE
+		  JOIN 
+		  	   DEPARTMENT ON (DEPT_CODE = DEPT_ID)
+		  JOIN 
+		  	   JOB ON (JOB_CODE = JOB_CODE)
+		 ORDER
+		 	BY
+		 	   HIRE_DATE DESC
+		
+	</select>
+	
+</mapper>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
